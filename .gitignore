@@ -32,3 +32,7 @@ Makefile*
 #QtCtreator Qml
 *.qmlproject.user
 *.qmlproject.user.*
+
+
+# 为了消除库路径的分歧，配置文件不上传
+*.pro
