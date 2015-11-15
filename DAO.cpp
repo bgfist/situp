@@ -5,7 +5,7 @@ DAO::DAO()
 
 }
 
-void DAO::insert()
+void DAO::insert(Log log)
 {
      CDatabase db =CDatabase::getDB();
      //do some sql operation

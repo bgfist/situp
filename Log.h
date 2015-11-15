@@ -1,40 +1,34 @@
 #ifndef LOG_H
 #define LOG_H
 
-#include <vector>
-#include <sstream>
-#include <cstring>
-#include <string>
-using namespace std;
-struct  Report
+
+
+#include "User.h"
+#include <QDate>
+#include <QTime>
+#include <FaceLogic.h>
+#include "cpredictor.h"
+/**
+   domain object ,represent a record of database table log.
+
+*/
+struct  Log
 {
 
 public:
-    string  start;
-    string  end;
+    int id;
+    QDate  date;
+    QTime  start_t;
+    QTime  end_t;
 
-    string type;
-    int duration;
+    FacePostureType face_type;
+    CPredictor::eSitType sit_type;
 
+    User user;
 
-    Report():start(""),end(""),type(""),duration(0)
-    {}
-
-    Report(string start,string end,string type,int duration):start(start),end(end),type(type),duration(duration)
-    {}
 
 
 };
-
-
-//写入记录
-void writeReport(Report &,const char *daystr);
-
-//抓取记录，按日期
-vector<Report> getReportByDay(const char * daystr);
-
-//操作符重载，便于日志存储
-const istringstream& operator>>(istringstream& in,Report& rt);
 
 
 

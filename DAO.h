@@ -3,11 +3,32 @@
 
 
 #include "cdatabase.h"
+#include "Log.h"
+#include "Predictor.h"
+#include "User.h"
+#include <QList>
+#include <QDate>
+#include <QString>
+
+/**
+   all data access interface defined here.
+*/
+
+
 class DAO
 {
 public:
-    DAO();
-    static void insert();
+
+    static void insert(Log log);
+    static  QList<Log> query(QDate date,User user);
+
+    static void insert(User user);
+    static User query(QString username);
+
+
+
+    static void insert(Predictor predictor);
+    static Predictor query(User user);
 };
 
 #endif // DAO_H
