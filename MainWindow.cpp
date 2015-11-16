@@ -12,6 +12,13 @@
 #include "cserialreader.h"
 #include "cpredictor.h"
 #include "cdatabase.h"
+#include "SitLogic.h"
+
+
+//DAO
+#include "DAO.h"
+//Session
+#include "Session.h"
 
 using namespace std;
 
@@ -62,27 +69,10 @@ bool MainWindow::seatProcess()
     CPredictor* p_iPredictor = CPredictor::getPredictor("test");
     for (int i = 0; i < iDataListList.size(); i++)
     {
-        CPredictor::eSitType eRes = p_iPredictor->Predict(iDataListList.at(i));
+        CPredictor::eSitType  eRes = p_iPredictor->Predict(iDataListList.at(i));
         qDebug() << "Result" << i << eRes;
         seatResultDisplayString = seatResultDisplayString + "Result<" + QString::number(i) + "> " + QString::number(eRes) + " ";
-        switch (eRes) {
-        case CPredictor::NORMAL:
-            seatResultDisplayString += "Normal";
-            break;
-        case CPredictor::LEFTWARD:
-            seatResultDisplayString += "Leftward";
-            break;
-        case CPredictor::RIGHTWARD:
-            seatResultDisplayString += "Rightward";
-            break;
-        case CPredictor::BACKWARD:
-            seatResultDisplayString += "Backward";
-            break;
-        case CPredictor::FORWARD:
-            seatResultDisplayString += "Forward";
-        default:
-            break;
-        }
+        seatResultDisplayString+=SitLogic::fetchJudgedMessage(eRes);
         seatResultDisplayString += "\n";
     }
     ui->seatInfoEdit->setPlainText(seatResultDisplayString);
@@ -234,11 +224,9 @@ void MainWindow::on_MainWindow_destroyed()
 void MainWindow::on_calendarWidget_clicked(const QDate &date)
 {
 
-    string str =int2str(date.year())+"-"+
-                int2str(date.month())+"-"+
-                int2str(date.day());
-    vector<Report> reportSet =getReportByDay(str.c_str());
-    ReportWindow* w =new ReportWindow(this,reportSet);
+    QList<Log> logs =DAO::query(const_cast<QDate&>(date),Session::user);
+
+    ReportWindow* w =new ReportWindow(this,logs);
     w->show();
 }
 

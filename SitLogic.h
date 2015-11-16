@@ -4,7 +4,7 @@
 
 #include "cpredictor.h"
 #include "cserialreader.h"
-
+#include <QString>
 class SitLogic
 {
 public:
@@ -22,8 +22,30 @@ public:
         stType =predictor.Predict(reader.ReadSerial());
     }
 
+    static  QString fetchJudgedMessage(CPredictor::eSitType sitType =stType)
+    {
+        switch (sitType) {
+        case CPredictor::NORMAL:
+            return "Normal";
+            break;
+        case CPredictor::LEFTWARD:
+            return "Leftward";
+            break;
+        case CPredictor::RIGHTWARD:
+            return "Rightward";
+            break;
+        case CPredictor::BACKWARD:
+            return "Backward";
+            break;
+        case CPredictor::FORWARD:
+            return "Forward";
+
+        }
+
+    }
+
 private:
-    static eSitType stType  =NORMAL;
+    static CPredictor::eSitType stType  =CPredictor::NORMAL;
 };
 
 #endif // SITLOGIC_H

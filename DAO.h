@@ -2,7 +2,7 @@
 #define DAO_H
 
 
-#include "cdatabase.h"
+
 #include "Log.h"
 #include "Predictor.h"
 #include "User.h"
@@ -19,7 +19,7 @@ class DAO
 {
 public:
 
-    static void insert(Log log);
+    static void insert(Log log,User user);
     static  QList<Log> query(QDate date,User user);
 
     static void insert(User user);
@@ -27,7 +27,7 @@ public:
 
 
 
-    static void insert(Predictor predictor);
+    static void insert(Predictor predictor,User user);
     static Predictor query(User user);
 };
 

@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "Log.h"
+#include <QList>
 namespace Ui {
 class ReportWindow;
 }
@@ -13,7 +14,7 @@ class ReportWindow : public QMainWindow
 
 public:
 
-    explicit ReportWindow(QWidget *parent = 0,vector<Report> reportSet =vector<Report>());
+    explicit ReportWindow(QWidget *parent = 0,QList<Log> reportSet);
 
     ~ReportWindow();
 
@@ -21,7 +22,7 @@ private:
     Ui::ReportWindow *ui;
 
 
-    void setTable(vector<Report>);
+    void setTable(QList<Log>);
 };
 
 #endif // REPORTWINDOW_H

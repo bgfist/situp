@@ -6,8 +6,12 @@
 #include "User.h"
 #include <QDate>
 #include <QTime>
-#include <FaceLogic.h>
-#include "cpredictor.h"
+#include <QString>
+
+
+
+
+
 /**
    domain object ,represent a record of database table log.
 
@@ -21,8 +25,8 @@ public:
     QTime  start_t;
     QTime  end_t;
 
-    FacePostureType face_type;
-    CPredictor::eSitType sit_type;
+    QString face_type;
+    QString sit_type;
 
     User user;
 

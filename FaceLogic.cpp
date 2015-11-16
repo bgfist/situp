@@ -139,44 +139,42 @@ void FaceLogic::judgeFacePosture(const Point& lfeye,const Point& rteye,const Poi
 }
 
 
-string FaceLogic::fetchJudgedMessage()
+QString FaceLogic::fetchJudgedMessage(FacePostureType faceType)
 {
 
-	switch (rtType)
+    switch (faceType)
 	{
         case Normal:
-            return "normal\n";
+            return QString("normal");
 			break;
         case Profile:
-            return "profile face\n";
+            return QString("profile face");
 			break;
         case Near:
-            return "too close\n";
+            return QString("too close");
 			break;
         case Far:
-            return "too far\n";
+            return QString("too far");
 			break;
         case Left:
-            return "left\n";
+            return QString("left");
 			break;
         case Right:
-            return "right\n";
+            return "right";
 			break;
         case Up:
-            return "up\n";
+            return "up";
 			break;
         case Down:
-            return "down\n";
+            return "down";
 			break;
         case NO_FACE:
-            return "no face detected\n";
+            return "no face detected";
             break;
         case Fault_FACE:
-            return "no entire face\n";
+            return "no entire face";
             break;
-		default:
-            return "normal\n";
-			break;
+
     }
 }
 
