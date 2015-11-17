@@ -10,6 +10,11 @@ CSerialReader* SitLogic::reader =CSerialReader::getReader();
 
 
 
+QList<CPredictor::eSitType> SitLogic::getSitType()
+{
+     return stType;
+}
+
 void SitLogic::init()
 {
 
@@ -34,8 +39,14 @@ void SitLogic::init()
 void SitLogic::readOnce()
 {
     for(auto data : reader->ReadSerial())
-         stType.append(predictor->Predict(data));
+        stType.append(predictor->Predict(data));
 }
+
+CPredictor::eSitType SitLogic::getAverageType()
+{
+     return stType.at(0);
+}
+
 
 
 QString SitLogic::fetchJudgedMessage(CPredictor::eSitType sitType)
@@ -57,6 +68,5 @@ QString SitLogic::fetchJudgedMessage(CPredictor::eSitType sitType)
         return "Forward";
 
     }
-
 
 }
