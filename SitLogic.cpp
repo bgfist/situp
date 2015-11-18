@@ -17,23 +17,8 @@ QList<CPredictor::eSitType> SitLogic::getSitType()
 
 void SitLogic::init()
 {
-
-    if(!reader->OpenSerial())
-    {
-        qDebug() << "Cannot open serial port";
-
-    }
-    qDebug() << "Open serial port succeed";
-
-    if(!reader->ConnectDevice())
-    {
-        qDebug() << "Cannot connect device";
-
-    }
-    qDebug() << "Connect device succeed";
-
-
-
+        reader->OpenSerial();
+        reader->ConnectDevice();
 }
 
 void SitLogic::readOnce()
