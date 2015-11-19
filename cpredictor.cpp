@@ -1,5 +1,5 @@
 #include "cpredictor.h"
-
+#include <QDebug>
 
 //dao model  session
 #include "Predictor.h"
@@ -164,7 +164,7 @@ void CPredictor::__BuildRTrees(Mat &iData, Mat &iLabel)
 
 #include "cserialreader.h"
 #include "SitLogic.h"
-void CPredictor::CollectData(eSitType type)
+void CPredictor::CollectDataFromSerialPort(eSitType type)
 {
 
     CSerialReader* pReader = CSerialReader::getReader();
@@ -186,8 +186,6 @@ void CPredictor::CollectData(eSitType type)
         {
             for (int k = 0; k < ATTRIBUTE_PRE_SAMPLE; k++)
             {
-
-                // 加上NUMBER_OF_TRAINING_SAMPLE_PER_CLASS因为每个class取样本的数量
                 iData.at<float>(j+nTotalNumber, k) = static_cast<float>(iDataListList[j][k]);
             }
             iLabel.at<int>(j+nTotalNumber, 0) = static_cast<int>(type);
@@ -202,11 +200,26 @@ void CPredictor::CollectData(eSitType type)
 
 }
 
-void CPredictor::loadFromDB()
+void CPredictor::CollectDataRaw(CPredictor::eSitType type, const QList<QList<int> > & data)
 {
 
-     Predictor p =DAO::query(Session::user);
-     pTrees->loadFromString<RTrees>((String)p.xml.toStdString());
+    for (int j = 0; j < data.size(); j++)
+    {
+        for (int k = 0; k < ATTRIBUTE_PRE_SAMPLE; k++)
+        {
+            iData.at<float>(j, k) = static_cast<float>(data[j][k]);
+        }
+        iLabel.at<int>(j, 0) = static_cast<int>(type);
+    }
+
+}
+
+void CPredictor::loadFromDB(const User& user)
+{
+
+     Predictor p =DAO::query(user);
+     if(p.id!=0)
+        pTrees=pTrees->loadFromString<RTrees>((String)p.xml.toStdString());
 }
 
 
@@ -220,6 +233,7 @@ void CPredictor::save2DB()
      Predictor p;
      p.user =Session::user;
      QFile f("temp.xml");
+     f.open(QIODevice::ReadOnly);
      p.xml  =f.readAll();
 
      DAO::insert(p);
@@ -240,7 +254,4 @@ bool CPredictor::isTrained()
     return   pTrees->isTrained();
 }
 
-void CPredictor::beginReceiveData()
-{
 
-}
